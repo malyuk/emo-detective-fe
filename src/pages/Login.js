@@ -69,7 +69,7 @@ export default function Login() {
                 LOGIN
               </Typography>
               <Button
-                onClick={loginWithGoogle}
+                // onClick={loginWithGoogle}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
