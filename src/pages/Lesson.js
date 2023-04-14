@@ -5,7 +5,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import Login from "./Login";
+import { fetchLesson } from "../api/lessonApi";
 
 export default function App() {
   const hmsActions = useHMSActions();
@@ -14,8 +14,9 @@ export default function App() {
   useEffect(
     () => async (e) => {
       // e.preventDefault();
+      const lesson = fetchLesson("etNqwBwosOWg8nFKnr0g");
       const userName = "sergeyMaliuk";
-      const roomCode = "bcf-iowk-qfa";
+      const roomCode = guestRoomCode;
       // use room code to fetch auth token
       const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
 
