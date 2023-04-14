@@ -6,52 +6,32 @@ import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import MenuItem from "@mui/material/MenuItem";
-
-const roles = [
-  {
-    value: "Student",
-    label: "Student",
-  },
-  {
-    value: "Teacher",
-    label: "Teacher",
-  },
-];
 
 export default function AddLesson() {
   const [dataTime, setDataTime] = useState("");
   const [name, setName] = useState("");
-  // const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [studentsEmails, setStudentsEmails] = useState("");
 
-  // const handleSignup = async () => {
-  //   const payload = {
-  //     name: name,
-  //     role: role,
-  //   };
-  //   console.log(payload);
-  // let result = null;
-  // try {
-  //   result = await fetch(`http://localhost/createUser`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(payload),
-  //   });
-  // } catch (error) {
-  //   setApiResponse(`Download error: ${error.message}`);
-  // }
-  // if (result) {
-  //   const jsonData = await result.json();
-  //   setApiResponse(jsonData);
-  // }
-  // };
+  const createLesson = async () => {
+    const payload = {
+      name: name,
+      dataTime: dataTime,
+      studentsEmails: studentsEmails,
+    };
+    console.log(payload);
+    // let result = null;
+    // result = await fetch(`http://localhost/createUser`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(payload),
+    // });
+  };
 
   return (
     <>
-      <form>
+      <form onSubmit={createLesson}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -81,21 +61,27 @@ export default function AddLesson() {
               <TextField
                 margin="normal"
                 required
-                select
                 fullWidth
-                name="role"
-                label="Role"
-                type="role"
-                id="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                {roles.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+                id="dataTime"
+                label="Data/Time"
+                name="dataTime"
+                autoComplete="dataTime"
+                autoFocus
+                value={dataTime}
+                onChange={(e) => setDataTime(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="studentsEmails"
+                label="Students Emails"
+                name="Students Emails"
+                autoComplete="studentsEmails"
+                autoFocus
+                value={studentsEmails}
+                onChange={(e) => setStudentsEmails(e.target.value)}
+              />
               <Button
                 type="submit"
                 fullWidth

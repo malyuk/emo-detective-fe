@@ -9,7 +9,7 @@ import React, { createContext } from "react";
 import AddLesson from "./pages/AddLesson";
 import Lesson from "./pages/Lesson";
 import LessonDashboard from "./pages/LessonDashboard";
-import TeacherDashboard from "./pages/TeacherDashboard";
+import LessonStatistics from "./pages/LessonStatistics";
 import Login from "./pages/Login";
 
 export const UserContext = createContext(null);
@@ -22,7 +22,6 @@ function App() {
         <nav
           style={{
             padding: ".3em",
-            backgroundColor: "darksalmon",
             display: "flex",
             justifyContent: "space-between",
           }}
@@ -39,18 +38,18 @@ function App() {
           <NavLink exact to="/Lesson">
             Lesson
           </NavLink>
-          <NavLink exact to="/TeacherDashboard">
-            Teacher Dashboard
+          <NavLink exact to="/LessonStatistics">
+            Lesson Statistics
           </NavLink>
         </nav>
       </header>
       <Routes>
-        <Route path="/TeacherDashboard" element={<TeacherDashboard />} />
+        <Route path="/LessonStatistics" element={<LessonStatistics />} />
         <Route path="/AddLesson" element={<AddLesson />} />
         <Route path="/Lesson" element={<Lesson />} />
         <Route path="/LessonDashboard" element={<LessonDashboard />} />
         {/* <Route path ='/Login' element={<Login/>} />*/}
-        <Route exact path="/" element={<Login />} />
+        <Route exact path="/Login" element={<Login />} />
       </Routes>
     </Router>
     // </UserContext.Provider>
