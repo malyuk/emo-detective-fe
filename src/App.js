@@ -1,24 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from "react-router-dom";
+import React, { createContext } from "react";
+import AddLesson from "./pages/AddLesson";
+import Lesson from "./pages/Lesson";
+import LessonDashboard from "./pages/LessonDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import Login from "./pages/Login";
+
+export const UserContext = createContext(null);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    // <UserContext.Provider value={{ user, setUser, jwt, setJwt }}>
+    <Router>
+      <header>
+        <nav
+          style={{
+            padding: ".3em",
+            backgroundColor: "darksalmon",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
-          Learn React
-        </a>
+          <NavLink exact to="/Login">
+            Login
+          </NavLink>
+          <NavLink exact to="/LessonDashboard">
+            Lesson Dashboard
+          </NavLink>
+          <NavLink exact to="/AddLesson">
+            Add Lesson
+          </NavLink>
+          <NavLink exact to="/Lesson">
+            Lesson
+          </NavLink>
+          <NavLink exact to="/TeacherDashboard">
+            Teacher Dashboard
+          </NavLink>
+        </nav>
       </header>
-    </div>
+      <Routes>
+        <Route path="/TeacherDashboard" element={<TeacherDashboard />} />
+        <Route path="/AddLesson" element={<AddLesson />} />
+        <Route path="/Lesson" element={<Lesson />} />
+        <Route path="/LessonDashboard" element={<LessonDashboard />} />
+        {/* <Route path ='/Login' element={<Login/>} />*/}
+        <Route exact path="/" element={<Login />} />
+      </Routes>
+    </Router>
+    // </UserContext.Provider>
   );
 }
 
