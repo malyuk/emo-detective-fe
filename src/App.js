@@ -1,3 +1,10 @@
+import './App.css';
+// import LessonCard from './LessonCard';
+import Lessons from './Lessons';
+// import TeacherDashboard from './TeacherDashboard';
+// import LogInForm from './LoginForm';
+
+
 import "./App.css";
 import {
   BrowserRouter as Router,
