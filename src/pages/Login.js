@@ -1,11 +1,11 @@
 import React from "react";
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+// import { initializeApp } from "firebase/app";
+// import {
+//   getAuth,
+//   signInWithEmailAndPassword,
+//   GoogleAuthProvider,
+//   signInWithPopup,
+// } from "firebase/auth";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
@@ -13,14 +13,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
-const firebaseConfig = {
-  apiKey: "",
-  authDomain: "t",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
-};
+// const firebaseConfig = {
+//   apiKey: "",
+//   authDomain: "t",
+//   projectId: "",
+//   storageBucket: "",
+//   messagingSenderId: "",
+//   appId: "",
+// };
 
 // const roles = [
 //   {
@@ -34,8 +34,8 @@ const firebaseConfig = {
 // ];
 
 export default function Login() {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+  // const app = initializeApp(firebaseConfig);
+  // const auth = getAuth(app);
   // const [name, setName] = useState("");
   // const [password, setPassword] = useState("");
   // const [role, setRole] = useState("");
@@ -58,7 +58,7 @@ export default function Login() {
                 LOGIN
               </Typography>
               <Button
-                onClick={loginWithGoogle}
+                // onClick={loginWithGoogle}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
