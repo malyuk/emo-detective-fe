@@ -43,8 +43,8 @@ export default function Lessons() {
         >
           <Container maxWidth="sm">
             <Typography
-              component="h1"
-              variant="h2"
+              component="h2"
+              variant="h3"
               align="center"
               color="text.primary"
               gutterBottom
@@ -56,27 +56,30 @@ export default function Lessons() {
             </Typography>
 
             <div>
-              {lessons === null && <p> Loading...</p>}
-              {lessons.length === 0 ? (
-                <div className="mt-5">
-                  <h3>No lessons here</h3>
-                  <Link to="/AddLesson">
-                    <Button
-                      variant="outlined"
-                      sx={{ mt: 3, mb: 2 }}
-                    >
-                      Add Lesson
-                    </Button>
-                  </Link>
-                </div>
-              ) : (
-                lessons.map((lesson) => {
-                  return (<Grid item key={lesson.id} xs={12} sm={6} md={4} >
-                    <LessonCard lessonName={lesson.lessonName} lessonDate={lesson.lessonDate} />
-                  </Grid>)
-                })
-              )
-              }
+              <Grid container spacing={4}>
+                {lessons === null && <p> Loading...</p>}
+                {lessons.length === 0 ? (
+                  <div className="mt-5">
+                    <h3>No lessons here</h3>
+                    <Link to="/AddLesson">
+                      <Button
+                        variant="outlined"
+                        sx={{ mt: 3, mb: 2 }}
+                      >
+                        Add Lesson
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  lessons.map((lesson) => {
+                    return (<Grid item key={lesson.id} xs={12} sm={6} md={4} >
+                      <LessonCard sx={{ height: '80%', display: 'flex', flexDirection: 'column' }}
+                        lessonName={lesson.lessonName} lessonDate={lesson.lessonDate} />
+                    </Grid>)
+                  })
+                )
+                }
+              </Grid>
             </div>
 
             <Stack
@@ -85,7 +88,7 @@ export default function Lessons() {
               spacing={2}
               justifyContent="center"
             >
-              <Link to="/AddLesson">
+              <Link href="/AddLesson">
                 <Button variant="outlined">Add Lesson</Button>
               </Link>
             </Stack>

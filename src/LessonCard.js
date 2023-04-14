@@ -8,11 +8,11 @@ import CardMedia from '@mui/material/CardMedia';
 export default function LessonCard({ lessonName, lessonDate }) {
   return (
     <Card
-      sx={{ maxWidth: 345 }}
+      sx={{ maxWidth: 420 }}
     >
       <CardMedia
         component="img"
-        height="180"
+        height="120"
         image="https://source.unsplash.com/random/?school#<%+new Date().getTime()%>"
         alt="school"
       />
