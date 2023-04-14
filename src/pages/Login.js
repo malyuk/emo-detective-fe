@@ -34,7 +34,7 @@ export default function Login() {
           userId: response.user.uid,
         };
         console.log(userObj);
-        fetch(`https://emo-detective-be.ue.r.appspot.com/users`, {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/users`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
