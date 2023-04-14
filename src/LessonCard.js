@@ -4,9 +4,8 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardMedia from '@mui/material/CardMedia';
 
-// we'll need tpo add id, name inside lessoncard() ? 
 
-export default function LessonCard() {
+export default function LessonCard({ lessonName, lessonDate }) {
   return (
     <Card
       sx={{ maxWidth: 345 }}
@@ -14,19 +13,20 @@ export default function LessonCard() {
       <CardMedia
         component="img"
         height="180"
-        image="https://source.unsplash.com/random/?colors#<%+new Date().getTime()%>"
-        alt="colors"
+        image="https://source.unsplash.com/random/?school#<%+new Date().getTime()%>"
+        alt="school"
       />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h5" component="h2">
-          Heading for the Lesson
+          {lessonName}
         </Typography>
         <Typography>
-          Lesson date and time
+          {lessonDate}
         </Typography>
       </CardContent>
     </Card>
-
   );
 }
+
+
 

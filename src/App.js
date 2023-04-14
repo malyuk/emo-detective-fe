@@ -1,5 +1,6 @@
 import './App.css';
-import LessonCard from './LessonCard';
+// import LessonCard from './LessonCard';
+import Lessons from './Lessons';
 // import TeacherDashboard from './TeacherDashboard';
 // import LogInForm from './LoginForm';
 
@@ -26,7 +27,9 @@ function App() {
       </header> */}
       {/* <LogInForm /> */}
       {/* <TeacherDashboard /> */}
-      <LessonCard />
+      {/* <LessonCard /> */}
+      <Lessons />
+
     </div>
   );
 }
