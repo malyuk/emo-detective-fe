@@ -10,12 +10,12 @@ import Container from "@mui/material/Container";
 import { UserContext } from "../App";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDQLs0SdLx1FzA6yCruDoQBs1pzi9N0YAQ",
-  authDomain: "emo-detective-be.firebaseapp.com",
-  projectId: "emo-detective-be",
-  storageBucket: "emo-detective-be.appspot.com",
-  messagingSenderId: "600385549714",
-  appId: "1:600385549714:web:9eef38621b28cea505fd4b",
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
 };
 
 export default function Login() {
