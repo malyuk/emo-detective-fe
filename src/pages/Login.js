@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Button from "@mui/material/Button";
@@ -22,16 +22,16 @@ export default function Login() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const { setUser } = useContext(UserContext);
-  // const [role, setRole] = useState("");
 
-  const loginWithGoogle = (event) => {
+  const loginWithGoogle = (event, role) => {
     event.preventDefault();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((response) => {
         let userObj = {
-          role: "teacher",
+          role: role,
           userId: response.user.uid,
+          email: response.user.email,
         };
         console.log(userObj);
         fetch(`${process.env.REACT_APP_API_BASE_URL}/users`, {
@@ -69,14 +69,18 @@ export default function Login() {
                 LOGIN
               </Typography>
               <Button
-                // onClick={loginWithGoogle}
+                onClick={(e) => {
+                  loginWithGoogle(e, "student");
+                }}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
                 Student Login
               </Button>
               <Button
-                onClick={loginWithGoogle}
+                onClick={(e) => {
+                  loginWithGoogle(e, "teacher");
+                }}
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
