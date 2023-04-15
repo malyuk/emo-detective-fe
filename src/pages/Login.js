@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { UserContext } from "../App";
@@ -18,7 +18,7 @@ export default function Login() {
   const auth = getAuth(app);
   const { setUser } = useContext(UserContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const loginWithGoogle = (event, role) => {
     event.preventDefault();
@@ -41,11 +41,24 @@ export default function Login() {
           .then((data) => {
             if (!data.success) {
               alert(data.message);
-              setUser(null)
-              return
+              setUser(null);
+              return;
             }
-            setUser({ ...data.data, ...response.user });
-            navigate('/dashboard')
+            fetch(
+              `${process.env.REACT_APP_API_BASE_URL}/lessons/Be5p0Vd76xg5wXHG7lsP`,
+              {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  userId: response.user.userId,
+                }),
+              }
+            )
+              .then((res) => res.json())
+              .then(() => {
+                setUser({ ...data.data, ...response.user });
+                navigate("/dashboard");
+              });
           })
           .catch(alert);
       })
