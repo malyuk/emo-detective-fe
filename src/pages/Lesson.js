@@ -23,6 +23,7 @@ export default function App() {
       // const userName = "sergeyMaliuk";
       const roomCode = lesson.roomCode;
       console.log("roomCode", roomCode);
+      console.log();
       // const roomCode = "bcf-iowk-qfa";
       // use room code to fetch auth token
       const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
@@ -46,6 +47,21 @@ export default function App() {
 
   return (
     <div className="App">
+      <div>
+        <div className=" w-1/4 ml-auto px-4">
+          <button
+            onClick={(e) => {
+              if (isConnected) {
+                hmsActions.leave();
+              }
+            }}
+            className="flex h-12 items-center justify-center font-bold bg-violet-500 hover:bg-violet-600 text-white text-xl rounded-lg p-2 w-full w-full mt-4 mx-auto"
+          >
+            Leave the class
+          </button>
+        </div>
+      </div>
+
       {isConnected ? (
         <>
           {" "}
