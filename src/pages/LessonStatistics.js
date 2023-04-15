@@ -33,7 +33,7 @@ function Home() {
             flexDirection: "column",
             alignItems: "center",
           }}>
-            <h1 className="font-bold text-2xl mt-1">Studend Statistic</h1>
+            <h1 className="font-bold text-2xl mt-1">Student Statistic</h1>
             <ChartBar />
           </Box>
         </div>
