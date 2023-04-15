@@ -5,7 +5,7 @@ import {
   useHMSActions,
   useHMSStore,
 } from "@100mslive/react-sdk";
-import { postStat, fetchLesson } from "../api/lessonApi";
+import { fetchLesson } from "../api/lessonApi";
 
 export default function App() {
   const hmsActions = useHMSActions();
@@ -29,24 +29,6 @@ export default function App() {
     },
     []
   );
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      let emotions = [
-        { name: "happy", value: Math.floor(Math.random() * 101) },
-        { name: "sad", value: Math.floor(Math.random() * 101) },
-        { name: "angry", value: Math.floor(Math.random() * 101) },
-        { name: "surprised", value: Math.floor(Math.random() * 101) },
-        { name: "disgusted", value: Math.floor(Math.random() * 101) },
-        { name: "fearful", value: Math.floor(Math.random() * 101) },
-      ];
-      let engagementScore = Math.floor(Math.random() * 101);
-      let userId = "ce8dcca6-4ca7-42a5-8a90-652b4d4ddcdf";
-      postStat(userId, emotions, engagementScore);
-    }, 5000);
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   useEffect(() => {
     window.onunload = () => {

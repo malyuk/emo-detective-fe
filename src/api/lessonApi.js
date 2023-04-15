@@ -6,7 +6,7 @@ export const fetchLesson = async (lessonId) => {
   return data;
 };
 
-export const postStat = async (userId, emotions, engagementScore) => {
+export const postStat = async (userId, emotions, engagementScore, lessonId) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_API_BASE_URL}/stats`,
@@ -19,6 +19,7 @@ export const postStat = async (userId, emotions, engagementScore) => {
           userId: userId,
           emotions: emotions,
           engagementScore: engagementScore,
+          lessonId: lessonId,
         }),
       }
     );

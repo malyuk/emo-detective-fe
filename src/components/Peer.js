@@ -3,8 +3,18 @@ import { useEffect, useState } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as blazeFace from "@tensorflow-models/blazeface";
 import "../css/Peer.css";
+import { postStat } from "../api/lessonApi";
+
 function Peer({ peer }) {
-  const [emotions, setEmotions] = useState([]);
+  let emotions = [];
+  const [avgEmotions, setAvgEmotions] = useState({
+    happy: 0,
+    sad: 0,
+    angry: 0,
+    surprised: 0,
+    disgusted: 0,
+    fearful: 0,
+  });
   let video = null;
   let webcam_canvas = null;
   let cam_ctx = null;
@@ -49,16 +59,20 @@ function Peer({ peer }) {
         //Predicting from image.
         const result = model_emotion.predict(image_tensor);
         const predictedValue = result.arraySync();
-        setEmotions({
-          angry: predictedValue["0"][0],
-          disgust: predictedValue["0"][1],
-          fear: predictedValue["0"][2],
-          happy: predictedValue["0"][3],
-          sad: predictedValue["0"][4],
-          surprise: predictedValue["0"][5],
-          neutral: predictedValue["0"][6],
-        });
+        emotions = [
+          ...emotions,
+          {
+            angry: predictedValue["0"][0],
+            disgust: predictedValue["0"][1],
+            fear: predictedValue["0"][2],
+            happy: predictedValue["0"][3],
+            sad: predictedValue["0"][4],
+            surprise: predictedValue["0"][5],
+            neutral: predictedValue["0"][6],
+          },
+        ];
       }
+      // console.log(emotions);
       // Call this function again to keep predicting when the browser is ready.
       if (control) window.requestAnimationFrame(predictWebcam);
     });
@@ -76,6 +90,33 @@ function Peer({ peer }) {
     []
   );
 
+  useEffect(() => {
+    if (!peer.isLocal) return;
+    const intervalId = setInterval(() => {
+      const sumObj = emotions.reduce((acc, curr) => {
+        Object.entries(curr).forEach(([key, val]) => {
+          acc[key] = (acc[key] || 0) + val;
+        });
+        return acc;
+      }, {});
+
+      const avgObj = Object.fromEntries(
+        Object.entries(sumObj).map(([key, val]) => [
+          key,
+          Math.round((val / emotions.length) * 100),
+        ])
+      );
+      console.log(sumObj);
+      setAvgEmotions(avgObj);
+      emotions = [];
+      let engagementScore = Math.floor(Math.random() * 101);
+      let userId = "ce8dcca6-4ca7-42a5-8a90-652b4d4ddcdf";
+      let lessonId = "etNqwBwosOWg8nFKnr0g";
+      postStat(userId, avgObj, engagementScore, lessonId);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
   const { videoRef } = useVideo({
     trackId: peer.videoTrack,
   });
@@ -93,22 +134,20 @@ function Peer({ peer }) {
       {peer.isLocal ? (
         <>
           <div id="video-overlay">
-            {"angry:" +
-              emotions.angry +
-              "disgust:" +
-              emotions.disgust +
-              "fear:" +
-              emotions.fear +
-              "happy:" +
-              emotions.happy +
-              "sad:" +
-              emotions.sad +
-              "surprise:" +
-              emotions.surprise +
-              "neutral:" +
-              emotions.neutral}
+            {(avgEmotions.angry ? "angry:" + avgEmotions.angry : "") +
+              (avgEmotions.disgust ? " disgust:" + avgEmotions.disgust : "") +
+              (avgEmotions.fear ? " fear:" + avgEmotions.fear : "") +
+              (avgEmotions.happy ? " happy:" + avgEmotions.happy : "") +
+              (avgEmotions.sad ? " sad:" + avgEmotions.sad : "") +
+              (avgEmotions.surprise ? "surprise:" + avgEmotions.surprise : "") +
+              (avgEmotions.neutral ? "neutral:" + avgEmotions.neutral : "")}
           </div>
-          <canvas id="webcam_canvas" width="640" height="475"></canvas>
+          <canvas
+            id="webcam_canvas"
+            width="640"
+            height="475"
+            style={{ display: "none" }}
+          ></canvas>
         </>
       ) : (
         ""
