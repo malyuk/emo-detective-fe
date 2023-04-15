@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import LessonCard from "../LessonCard";
 import { useContext, useState } from "react";
-import { LessonContext, UserContext } from "../App";
+import { UserContext } from "../App";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
-  const { setLesson } = useContext(LessonContext);
   const [lessons, setLessons] = useState([]);
   useEffect(() => {
     if (user.role === "student") {
@@ -18,6 +17,15 @@ const Dashboard = () => {
           setLessons(data);
         })
         .catch((err) => console.error(err));
+    } else {
+        fetch(
+            `${process.env.REACT_APP_API_BASE_URL}/lessons/${user.userId}`
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setLessons(data);
+            })
+            .catch((err) => console.error(err));
     }
   }, []);
 
