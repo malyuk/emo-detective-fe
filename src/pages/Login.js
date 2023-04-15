@@ -1,12 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { UserContext } from "../App";
 
 const firebaseConfig = {
@@ -52,44 +46,32 @@ export default function Login() {
   };
 
   return (
-    <>
-      <form>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-              <Typography component="h1" variant="h5">
-                LOGIN
-              </Typography>
-              <Button
-                onClick={(e) => {
-                  loginWithGoogle(e, "student");
-                }}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Student Login
-              </Button>
-              <Button
-                onClick={(e) => {
-                  loginWithGoogle(e, "teacher");
-                }}
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Teacher Login
-              </Button>
-            </FormControl>
-          </Box>
-        </Container>
-      </form>
-    </>
+    <section className="bg-slate-100 py-12 px-4 min-h-screen">
+      <div className="bg-white sm:max-w-3xl mx-auto p-10 rounded-xl">
+        <h1 className="text-4xl text-center font-extrabold mb-8">Welcome!</h1>
+        <p className="text-center text-2xl mb-8">
+          Please sign in below to get started.
+        </p>
+        <div className="flex md:flex-row items-center flex-col gap-4 min-h-24">
+          <div className="w-1/2 md:border-r-2 border-slate-100">
+            <button
+              onClick={(e) => loginWithGoogle(e, "teacher")}
+              className="flex h-12 items-center justify-center font-bold bg-violet-500 hover:bg-violet-600 text-white text-xl rounded-lg p-2 w-full sm:w-1/2 mt-4 mx-auto"
+            >
+              Teacher Login
+            </button>
+          </div>
+
+          <div className="w-1/2">
+            <button
+              onClick={(e) => loginWithGoogle(e, "student)")}
+              className="flex h-12 items-center justify-center font-bold bg-green-300 hover:bg-green-400 text-green-900 text-xl rounded-lg p-2 w-full sm:w-1/2 mt-4 mx-auto"
+            >
+              Student Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
