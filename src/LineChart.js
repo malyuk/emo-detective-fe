@@ -29,9 +29,13 @@ export default function Chart(lesson) {
       .then((data) => {
 
         let holder= []
+        data.data.sort((a,b) => (a.createdOn._seconds - b.createdOn._seconds))
         data.data.forEach(element => {
-          holder.push({...element.emotions, Time: moment(element.createdOn._seconds).format("h:mm:ss a") })
+          if (element.emotions.lenght !== 0 ){
+            holder.push({...element.emotions, Time: moment(element.createdOn._seconds).format("h:mm:ss a") })
+          } 
         });
+        holder.sort(function(a, b){return a.Time - b.Time})
         
         setChart( holder);
       })
@@ -39,14 +43,14 @@ export default function Chart(lesson) {
   }, [fetch]);
 
   return (
-    <LineChart width={1500} height={300} data={chart}>   
-    <Line type="monotone" dataKey="angry" stroke="#2196F3" strokeWidth={1} />
-    <Line type="monotone" dataKey="disgust" troke="#F44335" strokeWidth={1} />
-    <Line type="monotone" dataKey="fear" stroke="#FFCA29" strokeWidth={1} />
-    <Line type="monotone" dataKey="happy" stroke="#2196F3" strokeWidth={1} />
-    <Line type="monotone" dataKey="neutral" troke="#F44335" strokeWidth={1} />
-    <Line type="monotone" dataKey="sad" stroke="#FFCA29" strokeWidth={1} />
-    <Line type="monotone" dataKey="surprise" stroke="#2196F3" strokeWidth={1} />
+    <LineChart width={900} height={300} data={chart}>   
+    <Line type="monotone" dataKey="angry" stroke="#f90008" strokeWidth={2} />
+    <Line type="monotone" dataKey="disgust" stroke="#798589" strokeWidth={2} />
+    <Line type="monotone" dataKey="fear" stroke="#0021fc" strokeWidth={2} />
+    <Line type="monotone" dataKey="happy" stroke="#69ff0c" strokeWidth={2} />
+    <Line type="monotone" dataKey="neutral" stroke="#fcc40c" strokeWidth={2} />
+    <Line type="monotone" dataKey="sad" stroke="#754d38" strokeWidth={2} />
+    <Line type="monotone" dataKey="surprise" stroke="#A45EE5" strokeWidth={2} />
 
     <CartesianGrid stroke="#ccc" />
     <XAxis dataKey="Time" />
