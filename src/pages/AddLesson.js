@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -6,8 +6,10 @@ import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { UserContext } from "../App";
 
 export default function AddLesson() {
+  const { user } = useContext(UserContext);
   const [dataTime, setDataTime] = useState("");
   const [name, setName] = useState("");
   const [studentsEmails, setStudentsEmails] = useState("");
@@ -16,17 +18,21 @@ export default function AddLesson() {
     const payload = {
       name: name,
       dataTime: dataTime,
-      studentsEmails: studentsEmails,
+      studentEmails: studentsEmails,
     };
     console.log(payload);
-    // let result = null;
-    // result = await fetch(`http://localhost/createUser`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(payload),
-    // });
+    let result = null;
+    try {
+      result = await fetch(`${process.env.REACT_APP_API_BASE_URL}/lessons`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (error) {
+      console.log(`Download error: ${error.message}`);
+    }
   };
 
   return (
