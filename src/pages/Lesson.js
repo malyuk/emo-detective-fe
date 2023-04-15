@@ -8,10 +8,13 @@ import {
 import { fetchLesson } from "../api/lessonApi";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../App";
+import { useNavigate } from "react-router-dom";
 
 export default function App() {
   const params = useParams();
   const { user } = useContext(UserContext);
+
+  const navigate = useNavigate();
 
   const hmsActions = useHMSActions();
   const isConnected = useHMSStore(selectIsConnectedToRoom);
@@ -53,6 +56,7 @@ export default function App() {
             onClick={(e) => {
               if (isConnected) {
                 hmsActions.leave();
+                navigate("/dashboard");
               }
             }}
             className="flex h-12 items-center justify-center font-bold bg-violet-500 hover:bg-violet-600 text-white text-xl rounded-lg p-2 w-full w-full mt-4 mx-auto"
