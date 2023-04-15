@@ -4,13 +4,14 @@ import * as tf from "@tensorflow/tfjs";
 import * as blazeFace from "@tensorflow-models/blazeface";
 
 function Peer({ peer }) {
-  const video = document.getElementById("webcam");
+  let video = null;
+  let webcam_canvas = null;
+  let cam_ctx = null;
   const instruction = document.getElementById("caminstruct");
   const liveView = document.getElementById("liveView");
   const enableWebcamButton = document.getElementById("webcamButton");
   const instructionText = document.getElementById("camiText");
-  const webcam_canvas = document.getElementById("webcam_canvas");
-  const cam_ctx = webcam_canvas.getContext("2d");
+
   const width = 640;
   const height = 480;
   var model = undefined;
@@ -47,6 +48,7 @@ function Peer({ peer }) {
         //Predicting from image.
         const result = model_emotion.predict(image_tensor);
         const predictedValue = result.arraySync();
+        console.log(predictedValue);
         // document.getElementById("angry").style.width =
         //   100 * predictedValue["0"][0] + "%";
         // document.getElementById("disgust").style.width =
@@ -71,7 +73,14 @@ function Peer({ peer }) {
     () => async (e) => {
       console.log("here");
       video = document.getElementById("webcam");
-      console.log("video:", video);
+      webcam_canvas = document.getElementById("webcam_canvas");
+      cam_ctx = webcam_canvas ? webcam_canvas.getContext("2d") : null;
+      console.log("video:", cam_ctx);
+      model = await blazeFace.load();
+      model_emotion = await tf.loadLayersModel("/model/model.json", false);
+      console.log("model:", model);
+      console.log("model_e:", model_emotion);
+      predictWebcam();
     },
     []
   );
@@ -91,12 +100,23 @@ function Peer({ peer }) {
     <div className="peer-container">
       <video
         ref={videoRef}
-        id="webcam"
+        id={peer.isLocal ? "webcam" : ""}
         className={`peer-video ${peer.isLocal ? "local" : ""}`}
         autoPlay
         muted
         playsInline
       />
+      {peer.isLocal ? (
+        <canvas
+          id="webcam_canvas"
+          width="640"
+          height="475"
+          // style="margin:0; display:none"
+        ></canvas>
+      ) : (
+        ""
+      )}
+
       <div className="peer-name">
         {peer.name} {peer.isLocal ? "(You)" : ""}
       </div>
