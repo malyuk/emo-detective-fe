@@ -1,6 +1,7 @@
 import { useVideo } from "@100mslive/react-sdk";
 import { useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
+import * as blazeFace from "@tensorflow-models/blazeface";
 
 function Peer({ peer }) {
   const video = document.getElementById("webcam");
