@@ -1,49 +1,53 @@
-import React from "react";
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Conference from "../components/Conference";
+import { useEffect } from "react";
+import {
+  selectIsConnectedToRoom,
+  useHMSActions,
+  useHMSStore,
+} from "@100mslive/react-sdk";
+import { fetchLesson } from "../api/lessonApi";
 
-const theme = createTheme();
+export default function App() {
+  const hmsActions = useHMSActions();
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
 
-function Home() {
+  useEffect(
+    () => async (e) => {
+      // e.preventDefault();
+      // const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
+      const userName = "sergeyMaliuk";
+      // const roomCode = lesson.roomCode;
+      const roomCode = "bcf-iowk-qfa";
+      // use room code to fetch auth token
+      const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
+
+      try {
+        await hmsActions.join({ userName, authToken });
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    []
+  );
+
+  useEffect(() => {
+    window.onunload = () => {
+      if (isConnected) {
+        hmsActions.leave();
+      }
+    };
+  }, [hmsActions, isConnected]);
+
   return (
-    <ThemeProvider theme={theme}>
-      <main>
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
-        ></Box>
-        <Container maxWidth="sm">
-          <Typography
-            component="h2"
-            variant="h3"
-            align="center"
-            color="text.primary"
-            gutterBottom
-          >Lesson
-          </Typography>
-
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-            <Button variant="contained">Start Lesson</Button>
-            <Button variant="outlined">Stop Lesson</Button>
-          </Stack>
-
-        </Container>
-
-      </main >
-    </ThemeProvider >
+    <div className="App">
+      {isConnected ? (
+        <>
+          {" "}
+          <Conference />
+        </>
+      ) : (
+        <>{"Can't connect to lesson"}</>
+      )}
+    </div>
   );
 }
-
-export default Home;
