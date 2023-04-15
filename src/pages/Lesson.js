@@ -60,7 +60,7 @@ export default function App() {
             justifyContent: "center",
           }}
         >
-          <img src="spinner.gif" alt="spinner" />
+          <img src="/spinner.gif" alt="spinner" />
         </div>
       )}
     </div>
