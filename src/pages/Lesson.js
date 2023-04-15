@@ -46,9 +46,15 @@ export default function App() {
           <Conference />
         </>
       ) : (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <img src="spinner.gif" alt="spinner" />
-          <p>{"Connecting"}</p>
         </div>
       )}
     </div>
