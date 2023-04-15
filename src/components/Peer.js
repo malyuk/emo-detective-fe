@@ -149,7 +149,7 @@ function Peer({ peer, lessonId }) {
       counter++;
       if (avgObj !== undefined && avgObj !== null && avgObj !== {}) {
         console.log(counter);
-        if (counter % 5 === 0) {
+        if (counter % 60 === 0) {
           postStat(userId, avgObj, engagementScore, lessonId);
           counter = 0;
         }
