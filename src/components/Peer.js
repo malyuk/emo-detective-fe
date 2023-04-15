@@ -110,7 +110,7 @@ function Peer({ peer }) {
       setAvgEmotions(avgObj);
       emotions = [];
       let engagementScore = Math.floor(Math.random() * 101);
-      let userId = "ce8dcca6-4ca7-42a5-8a90-652b4d4ddcdf";
+      let userId = "AW3p1Pa84XMSfkCnu05KWq9MUgh1";
       let lessonId = "etNqwBwosOWg8nFKnr0g";
       postStat(userId, avgObj, engagementScore, lessonId);
     }, 5000);

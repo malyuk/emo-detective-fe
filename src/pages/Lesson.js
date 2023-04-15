@@ -6,6 +6,7 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { fetchLesson } from "../api/lessonApi";
+import { RingLoader } from "react-spinners";
 
 export default function App() {
   const hmsActions = useHMSActions();
@@ -14,7 +15,7 @@ export default function App() {
   useEffect(
     () => async (e) => {
       // e.preventDefault();
-      // const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
+      //const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
       const userName = "sergeyMaliuk";
       // const roomCode = lesson.roomCode;
       const roomCode = "bcf-iowk-qfa";
@@ -46,7 +47,10 @@ export default function App() {
           <Conference />
         </>
       ) : (
-        <>{"Can't connect to lesson"}</>
+        <div>
+          <img src="spinner.gif" alt="spinner" />
+          <p>{"Connecting"}</p>
+        </div>
       )}
     </div>
   );
