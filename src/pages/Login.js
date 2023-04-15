@@ -1,44 +1,55 @@
-import React from "react";
-// import { initializeApp } from "firebase/app";
-// import {
-//   getAuth,
-//   signInWithEmailAndPassword,
-//   GoogleAuthProvider,
-//   signInWithPopup,
-// } from "firebase/auth";
+import React, { useContext } from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { UserContext } from "../App";
 
-// const firebaseConfig = {
-//   apiKey: "",
-//   authDomain: "t",
-//   projectId: "",
-//   storageBucket: "",
-//   messagingSenderId: "",
-//   appId: "",
-// };
-
-// const roles = [
-//   {
-//     value: "Student",
-//     label: "Student",
-//   },
-//   {
-//     value: "Teacher",
-//     label: "Teacher",
-//   },
-// ];
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+};
 
 export default function Login() {
-  // const app = initializeApp(firebaseConfig);
-  // const auth = getAuth(app);
-  // const [name, setName] = useState("");
-  // const [password, setPassword] = useState("");
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const { setUser } = useContext(UserContext);
   // const [role, setRole] = useState("");
+
+  const loginWithGoogle = (event) => {
+    event.preventDefault();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((response) => {
+        let userObj = {
+          role: "teacher",
+          userId: response.user.uid,
+        };
+        console.log(userObj);
+        fetch(`https://emo-detective-be.ue.r.appspot.com/users`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userObj),
+        })
+          .then((apiResponse) => apiResponse.json())
+          .then((data) => {
+            response.user.getIdToken();
+            setUser(data);
+          })
+          .catch(alert);
+      })
+      .catch((err) => alert(err.message));
+  };
 
   return (
     <>
@@ -62,7 +73,14 @@ export default function Login() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Login with Google
+                Student Login
+              </Button>
+              <Button
+                onClick={loginWithGoogle}
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Teacher Login
               </Button>
             </FormControl>
           </Box>
