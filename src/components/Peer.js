@@ -4,10 +4,21 @@ function Peer({ peer }) {
   const { videoRef } = useVideo({
     trackId: peer.videoTrack,
   });
+
+  const video = document.getElementById('webcam');
+  const liveView = document.getElementById('liveView');
+
+
+  console.log(video)
+  var model = undefined;
+  var control = false;
+
+
   return (
     <div className="peer-container">
       <video
         ref={videoRef}
+        id='webcam'
         className={`peer-video ${peer.isLocal ? "local" : ""}`}
         autoPlay
         muted
@@ -21,3 +32,4 @@ function Peer({ peer }) {
 }
 
 export default Peer;
+

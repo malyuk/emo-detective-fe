@@ -14,9 +14,10 @@ export default function App() {
   useEffect(
     () => async (e) => {
       // e.preventDefault();
-      const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
+      // const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
       const userName = "sergeyMaliuk";
-      const roomCode = lesson.roomCode;
+      // const roomCode = lesson.roomCode;
+      const roomCode = "bcf-iowk-qfa";
       // use room code to fetch auth token
       const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
 
