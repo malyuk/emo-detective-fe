@@ -7,8 +7,9 @@ function Conference() {
   return (
     <>
       <div>
-        <h2>Lesson name</h2>
+        <h1>Algebra 2</h1>
       </div>
+      <br />
       <div
         className="flex gap-2"
         style={{
