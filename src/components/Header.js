@@ -18,11 +18,11 @@ const Header = () => {
             {user.displayName ? (
               <div className="font-bold">Hi, {user.displayName}</div>
             ) : null}
-            <img
+            {user.photoURL && <img
               className="h-8 w-8 rounded-full mr-2"
               src={user.photoURL}
               alt={`User avatar for ${user.displayName}`}
-            />
+            />}
           </div>
         )}
       </ul>
