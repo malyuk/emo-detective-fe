@@ -8,12 +8,9 @@ const navigationItems = [{ path: "/dashboard", name: "Dashboard" }];
 const Header = () => {
   const { user } = useContext(UserContext);
   return (
-    <div className="flex justify-between text-lg bg-slate-200 py-4 px-6 shadow-sm">
+    <div className="flex justify-between items-center text-lg bg-slate-200 py-4 px-6 shadow-sm">
       <Link to="/">
-        <img
-          style={{ width: "92px", height: "40px" }}
-          src="/learnazium-logo.svg"
-        ></img>
+        <img className="h-12" src="/learnazium-logo.svg" alt="LearnAIzium logo"/>
       </Link>
       <ul className="flex gap-8">
         {user && (
@@ -25,11 +22,13 @@ const Header = () => {
             {user.displayName ? (
               <div className="font-bold">Hi, {user.displayName}</div>
             ) : null}
-            {user.photoURL && <img
-              className="h-8 w-8 rounded-full mr-2"
-              src={user.photoURL}
-              alt={`User avatar for ${user.displayName}`}
-            />}
+            {user.photoURL && (
+              <img
+                className="h-8 w-8 rounded-full mr-2"
+                src={user.photoURL}
+                alt={`User avatar for ${user.displayName}`}
+              />
+            )}
           </div>
         )}
       </ul>
