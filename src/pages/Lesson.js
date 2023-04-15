@@ -61,6 +61,14 @@ export default function App() {
       {isConnected ? (
         <>
           {" "}
+          <canvas
+            id="webcam_canvas"
+            width="640"
+            height="475"
+            style="margin:0; display: none"
+          >
+            Canvas not supported
+          </canvas>
           <Conference />
         </>
       ) : (
