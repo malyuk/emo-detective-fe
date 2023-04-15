@@ -1,26 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../App";
 
-const navigationItems = [
-  { path: "/login", name: "Login" },
-  { path: "/lesson", name: "Lesson" },
-  { path: "/teacher-dashboard", name: "Teacher Dashboard" },
-  { path: "/add-lesson", name: "Add Lesson" },
-  { path: "/lesson-statistics", name: "Lesson Statistics" },
-];
+const navigationItems = [{ path: "/dashboard", name: "Dashboard" }];
 
 const Header = () => {
+  const { user } = useContext(UserContext);
   return (
     <div className="flex justify-between text-lg bg-slate-200 py-4 px-6 shadow-sm">
-        <Link to="/">Logo</Link>
+      <Link to="/">Logo</Link>
       <ul className="flex gap-8">
-        {navigationItems.map((el) => {
-          return (
-            <li key={el.name} className="hover:underline cursor-pointer ">
-              <Link to={el.path}>{el.name}</Link>
-            </li>
-          );
-        })}
+        {user && <Link to={navigationItems[0].path}>{navigationItems[0].name}</Link>}
+
+        {user && (
+          <div className="border-l-2  border-slate-300 pl-6 flex gap-2 items-center">
+            {user.displayName ? (
+              <div className="font-bold">Hi, {user.displayName}</div>
+            ) : null}
+            <img
+              className="h-8 w-8 rounded-full mr-2"
+              src={user.photoURL}
+              alt={`User avatar for ${user.displayName}`}
+            />
+          </div>
+        )}
       </ul>
     </div>
   );
