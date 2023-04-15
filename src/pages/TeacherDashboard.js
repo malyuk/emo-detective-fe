@@ -1,9 +1,10 @@
 import React from "react";
+import Lessons from "../Lessons";
 
 function Home() {
   return (
     <main>
-      <h1>Lesson Dashboard</h1>
+      <Lessons />
     </main>
   );
 }
