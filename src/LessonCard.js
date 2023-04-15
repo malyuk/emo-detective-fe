@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "./App";
+import { Link } from "react-router-dom";
 
 export default function LessonCard({ lessonName, lessonDate, id, lessonTime }) {
   const { user } = useContext(UserContext);
@@ -12,9 +13,10 @@ export default function LessonCard({ lessonName, lessonDate, id, lessonTime }) {
       </span>
       {user.role === "teacher" && (
         <>
+          <Link to={`/lesson-statistics/${id}`}>
           <button className="mt-8  bg-violet-500 text-white p-2 rounded-lg hover:bg-violet-600">
             View Lesson Stats
-          </button>
+          </button></Link>
         </>
       )}
     </div>

@@ -33,6 +33,7 @@ const Dashboard = () => {
                     lessonDate={el.lessonDate}
                     lessonName={el.lessonName}
                     lessonTime={el.lessonTime}
+                    id={el.id}
                   />
                 </Link>
               );
