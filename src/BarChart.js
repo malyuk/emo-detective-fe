@@ -1,6 +1,6 @@
-
+import React, { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-
+import moment from 'moment'
 // const data = [
 //   { name: "2017", pv: 20, uv: 40, tn: 20, tp: 40  },
 //   { name: "2018", pv: 30, uv: 43 },
@@ -19,9 +19,31 @@ const data = [
 
 export default function ChartBar() {
 
+  const [chart, setChart] = useState([]);
+  useEffect(() => {
+    fetch(
+      `https://emo-detective-be.ue.r.appspot.com/stats/lesson/etNqwBwosOWg8nFKnr0g`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+
+        let holder= []
+        data.data.sort((a,b) => (a.createdOn._seconds - b.createdOn._seconds))
+        data.data.forEach(element => {
+          if (element.emotions.lenght !== 0 ){
+            holder.push({...element.emotions, Time: moment(element.createdOn._seconds).format("h:mm:ss a") })
+          } 
+        });
+        holder.sort(function(a, b){return a.Time - b.Time})
+        
+        setChart( holder);
+      })
+      .catch(alert);
+  }, [fetch]);
+
   return (
 
-    <BarChart width={600} height={300} data={data}>
+    <BarChart width={900} height={300} data={chart}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="Time" />
       <YAxis />
