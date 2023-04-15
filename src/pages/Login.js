@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { UserContext } from "../App";
@@ -16,6 +17,8 @@ export default function Login() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const { setUser } = useContext(UserContext);
+
+  const navigate = useNavigate()
 
   const loginWithGoogle = (event, role) => {
     event.preventDefault();
@@ -36,11 +39,13 @@ export default function Login() {
         })
           .then((apiResponse) => apiResponse.json())
           .then((data) => {
-            if(!data.success){
-              alert(data.message)
+            if (!data.success) {
+              alert(data.message);
+              setUser(null)
+              return
             }
-            const token = response.user.accessToken;
-            setUser({ ...data.data, token });
+            setUser({ ...data.data, ...response.user });
+            navigate('/dashboard')
           })
           .catch(alert);
       })
