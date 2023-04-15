@@ -1,9 +1,10 @@
 import { useVideo } from "@100mslive/react-sdk";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as blazeFace from "@tensorflow-models/blazeface";
-
+import "../css/Peer.css";
 function Peer({ peer }) {
+  const [emotions, setEmotions] = useState([]);
   let video = null;
   let webcam_canvas = null;
   let cam_ctx = null;
@@ -16,7 +17,7 @@ function Peer({ peer }) {
   const height = 480;
   var model = undefined;
   var model_emotion = undefined;
-  var control = false;
+  var control = true;
 
   function predictWebcam() {
     cam_ctx.drawImage(video, 0, 0, width, height);
@@ -48,21 +49,15 @@ function Peer({ peer }) {
         //Predicting from image.
         const result = model_emotion.predict(image_tensor);
         const predictedValue = result.arraySync();
-        console.log(predictedValue);
-        // document.getElementById("angry").style.width =
-        //   100 * predictedValue["0"][0] + "%";
-        // document.getElementById("disgust").style.width =
-        //   100 * predictedValue["0"][1] + "%";
-        // document.getElementById("fear").style.width =
-        //   100 * predictedValue["0"][2] + "%";
-        // document.getElementById("happy").style.width =
-        //   100 * predictedValue["0"][3] + "%";
-        // document.getElementById("sad").style.width =
-        //   100 * predictedValue["0"][4] + "%";
-        // document.getElementById("surprise").style.width =
-        //   100 * predictedValue["0"][5] + "%";
-        // document.getElementById("neutral").style.width =
-        //   100 * predictedValue["0"][6] + "%";
+        setEmotions({
+          angry: predictedValue["0"][0],
+          disgust: predictedValue["0"][1],
+          fear: predictedValue["0"][2],
+          happy: predictedValue["0"][3],
+          sad: predictedValue["0"][4],
+          surprise: predictedValue["0"][5],
+          neutral: predictedValue["0"][6],
+        });
       }
       // Call this function again to keep predicting when the browser is ready.
       if (control) window.requestAnimationFrame(predictWebcam);
@@ -89,13 +84,6 @@ function Peer({ peer }) {
     trackId: peer.videoTrack,
   });
 
-  // const video = document.getElementById("webcam");
-  // const liveView = document.getElementById("liveView");
-
-  console.log(video);
-  var model = undefined;
-  var control = false;
-
   return (
     <div className="peer-container">
       <video
@@ -107,12 +95,25 @@ function Peer({ peer }) {
         playsInline
       />
       {peer.isLocal ? (
-        <canvas
-          id="webcam_canvas"
-          width="640"
-          height="475"
-          // style="margin:0; display:none"
-        ></canvas>
+        <>
+          <div id="video-overlay">
+            {"angry:" +
+              emotions.angry +
+              "disgust:" +
+              emotions.disgust +
+              "fear:" +
+              emotions.fear +
+              "happy:" +
+              emotions.happy +
+              "sad:" +
+              emotions.sad +
+              "surprise:" +
+              emotions.surprise +
+              "neutral:" +
+              emotions.neutral}
+          </div>
+          <canvas id="webcam_canvas" width="640" height="475"></canvas>
+        </>
       ) : (
         ""
       )}
