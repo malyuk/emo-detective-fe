@@ -14,7 +14,7 @@ export default function App() {
   useEffect(
     () => async (e) => {
       // e.preventDefault();
-      // const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
+      //const lesson = await fetchLesson("etNqwBwosOWg8nFKnr0g");
       const userName = "sergeyMaliuk";
       // const roomCode = lesson.roomCode;
       const roomCode = "bcf-iowk-qfa";
@@ -46,7 +46,16 @@ export default function App() {
           <Conference />
         </>
       ) : (
-        <>{"Can't connect to lesson"}</>
+        <div
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img src="spinner.gif" alt="spinner" />
+        </div>
       )}
     </div>
   );

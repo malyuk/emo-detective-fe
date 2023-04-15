@@ -5,15 +5,31 @@ import Peer from "./Peer";
 function Conference() {
   const peers = useHMSStore(selectPeers);
   return (
-    <div className="conference-section">
-      <h2>Conference</h2>
-
-      <div className="peers-container">
+    <>
+      <div>
+        <h2>Lesson name</h2>
+      </div>
+      <div
+        className="flex gap-2"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+        }}
+      >
         {peers.map((peer) => (
-          <Peer key={peer.id} peer={peer} />
+          <Peer
+            style={{
+              marginBottom: "10px",
+              width: "100%",
+              height: "auto",
+            }}
+            key={peer.id}
+            peer={peer}
+          />
         ))}
       </div>
-    </div>
+    </>
   );
 }
 
