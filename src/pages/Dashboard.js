@@ -8,25 +8,14 @@ const Dashboard = () => {
   const { user } = useContext(UserContext);
   const [lessons, setLessons] = useState([]);
   useEffect(() => {
-    if (user.role === "student") {
-      fetch(
-        `${process.env.REACT_APP_API_BASE_URL}/lessons/student/${user.userId}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setLessons(data);
-        })
-        .catch((err) => console.error(err));
-    } else {
-        fetch(
-            `${process.env.REACT_APP_API_BASE_URL}/lessons/${user.userId}`
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              setLessons(data);
-            })
-            .catch((err) => console.error(err));
-    }
+    fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/lessons/student/${user.userId}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setLessons(data);
+      })
+      .catch((err) => console.error(err));
   }, []);
 
   return (
@@ -43,6 +32,7 @@ const Dashboard = () => {
                     key={el.lessonName}
                     lessonDate={el.lessonDate}
                     lessonName={el.lessonName}
+                    lessonTime={el.lessonTime}
                   />
                 </Link>
               );
