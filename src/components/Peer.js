@@ -66,15 +66,11 @@ function Peer({ peer }) {
 
   useEffect(
     () => async (e) => {
-      console.log("here");
       video = document.getElementById("webcam");
       webcam_canvas = document.getElementById("webcam_canvas");
       cam_ctx = webcam_canvas ? webcam_canvas.getContext("2d") : null;
-      console.log("video:", cam_ctx);
       model = await blazeFace.load();
       model_emotion = await tf.loadLayersModel("/model/model.json", false);
-      console.log("model:", model);
-      console.log("model_e:", model_emotion);
       predictWebcam();
     },
     []
