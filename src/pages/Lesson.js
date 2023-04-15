@@ -25,8 +25,8 @@ export default function App() {
       const lesson = await fetchLesson(params.id);
       // const userName = "sergeyMaliuk";
       const roomCode = lesson.roomCode;
-      console.log("roomCode", roomCode);
-      console.log();
+      // console.log("roomCode", roomCode);
+      // console.log();
       // const roomCode = "bcf-iowk-qfa";
       // use room code to fetch auth token
       const authToken = await hmsActions.getAuthTokenByRoomCode({ roomCode });
@@ -69,7 +69,7 @@ export default function App() {
       {isConnected ? (
         <>
           {" "}
-          <Conference />
+          <Conference lessonId={params.id} />
         </>
       ) : (
         <div

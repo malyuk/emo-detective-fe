@@ -2,7 +2,7 @@ import { selectPeers, useHMSStore } from "@100mslive/react-sdk";
 import React from "react";
 import Peer from "./Peer";
 
-function Conference() {
+function Conference({ lessonId }) {
   const peers = useHMSStore(selectPeers);
   return (
     <>
@@ -27,6 +27,7 @@ function Conference() {
             }}
             key={peer.id}
             peer={peer}
+            lessonId={lessonId}
           />
         ))}
       </div>

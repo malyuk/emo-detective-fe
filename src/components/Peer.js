@@ -1,11 +1,12 @@
 import { useVideo } from "@100mslive/react-sdk";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as blazeFace from "@tensorflow-models/blazeface";
 import "../css/Peer.css";
 import { postStat } from "../api/lessonApi";
-
-function Peer({ peer }) {
+import { UserContext } from "../App";
+function Peer({ peer, lessonId }) {
+  const { user } = useContext(UserContext);
   let emotions = [];
   const [avgEmotions, setAvgEmotions] = useState({
     happy: 0,
@@ -16,6 +17,7 @@ function Peer({ peer }) {
     fearful: 0,
   });
   const [maxEmotion, setMaxEmotion] = useState("");
+  let counter = 0;
   let video = null;
   let webcam_canvas = null;
   let cam_ctx = null;
@@ -142,10 +144,15 @@ function Peer({ peer }) {
           setMaxEmotion("");
       }
       let engagementScore = Math.floor(Math.random() * 101);
-      let userId = "AW3p1Pa84XMSfkCnu05KWq9MUgh1";
-      let lessonId = "etNqwBwosOWg8nFKnr0g";
+      let userId = user.userId;
+      console.log(userId, lessonId);
+      counter++;
       if (avgObj !== undefined && avgObj !== null && avgObj !== {}) {
-        postStat(userId, avgObj, engagementScore, lessonId);
+        console.log(counter);
+        if (counter % 5 === 0) {
+          postStat(userId, avgObj, engagementScore, lessonId);
+          counter = 0;
+        }
       }
       emotions = [];
     }, 1000);
