@@ -50,7 +50,7 @@ export default function Login() {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  userId: response.user.userId,
+                  userId: response.user.uid,
                 }),
               }
             )
