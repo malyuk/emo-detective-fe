@@ -27,6 +27,7 @@ function Peer({ peer }) {
   var control = true;
 
   function predictWebcam() {
+    if (cam_ctx === null) return;
     cam_ctx.drawImage(video, 0, 0, width, height);
     const frame = cam_ctx.getImageData(0, 0, width, height);
     // Now let's start classifying a frame in the stream.
@@ -143,7 +144,9 @@ function Peer({ peer }) {
       let engagementScore = Math.floor(Math.random() * 101);
       let userId = "AW3p1Pa84XMSfkCnu05KWq9MUgh1";
       let lessonId = "etNqwBwosOWg8nFKnr0g";
-      postStat(userId, avgObj, engagementScore, lessonId);
+      if (avgObj !== undefined && avgObj !== null && avgObj !== {}) {
+        postStat(userId, avgObj, engagementScore, lessonId);
+      }
       emotions = [];
     }, 1000);
 
