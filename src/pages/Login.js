@@ -27,7 +27,6 @@ export default function Login() {
           userId: response.user.uid,
           email: response.user.email,
         };
-        console.log(userObj);
         fetch(`${process.env.REACT_APP_API_BASE_URL}/users`, {
           method: "POST",
           headers: {
@@ -37,8 +36,11 @@ export default function Login() {
         })
           .then((apiResponse) => apiResponse.json())
           .then((data) => {
-            response.user.getIdToken();
-            setUser(data);
+            if(!data.success){
+              alert(data.message)
+            }
+            const token = response.user.accessToken;
+            setUser({ ...data.data, token });
           })
           .catch(alert);
       })
@@ -64,7 +66,7 @@ export default function Login() {
 
           <div className="w-1/2">
             <button
-              onClick={(e) => loginWithGoogle(e, "student)")}
+              onClick={(e) => loginWithGoogle(e, "student")}
               className="flex h-12 items-center justify-center font-bold bg-green-300 hover:bg-green-400 text-green-900 text-xl rounded-lg p-2 w-full sm:w-1/2 mt-4 mx-auto"
             >
               Student Login

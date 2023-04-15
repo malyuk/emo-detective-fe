@@ -4,6 +4,7 @@ import * as tf from "@tensorflow/tfjs";
 import * as blazeFace from "@tensorflow-models/blazeface";
 import "../css/Peer.css";
 import { postStat } from "../api/lessonApi";
+import Emoji from "reactjs-emojis";
 
 function Peer({ peer }) {
   let emotions = [];
@@ -15,6 +16,7 @@ function Peer({ peer }) {
     disgusted: 0,
     fearful: 0,
   });
+  const [maxEmotion, setMaxEmotion] = useState("");
   let video = null;
   let webcam_canvas = null;
   let cam_ctx = null;
@@ -23,8 +25,8 @@ function Peer({ peer }) {
   const enableWebcamButton = document.getElementById("webcamButton");
   const instructionText = document.getElementById("camiText");
 
-  const width = 640;
-  const height = 480;
+  const width = 480;
+  const height = 360;
   var model = undefined;
   var model_emotion = undefined;
   var control = true;
@@ -81,7 +83,9 @@ function Peer({ peer }) {
   useEffect(
     () => async (e) => {
       video = document.getElementById("webcam");
-      webcam_canvas = document.getElementById("webcam_canvas");
+      webcam_canvas = document.getElementById(
+        "webcam_canvas" + peer.videoTrack
+      );
       cam_ctx = webcam_canvas ? webcam_canvas.getContext("2d") : null;
       model = await blazeFace.load();
       model_emotion = await tf.loadLayersModel("/model/model.json", false);
@@ -91,7 +95,7 @@ function Peer({ peer }) {
   );
 
   useEffect(() => {
-    if (!peer.isLocal) return;
+    // if (!peer.isLocal) return;
     const intervalId = setInterval(() => {
       const sumObj = emotions.reduce((acc, curr) => {
         Object.entries(curr).forEach(([key, val]) => {
@@ -106,13 +110,50 @@ function Peer({ peer }) {
           Math.round((val / emotions.length) * 100),
         ])
       );
-      console.log(sumObj);
+
       setAvgEmotions(avgObj);
-      emotions = [];
+      const avgArr = Object.entries(avgObj);
+
+      const maxObj =
+        avgArr.length > 0
+          ? avgArr.reduce((max, obj) => {
+              console.log(obj);
+              return obj[1] > max[1] ? obj : max;
+            })
+          : {};
+
+      // console.log(avgArr);
+      console.log(peer.trackId + " " + maxObj);
+      switch (maxObj[0]) {
+        case "happy":
+          setMaxEmotion("😀");
+          break;
+        case "sad":
+          setMaxEmotion("😞");
+          break;
+        case "angry":
+          setMaxEmotion("😡");
+          break;
+        case "surprise":
+          setMaxEmotion("😲");
+          break;
+        case "disgust":
+          setMaxEmotion("🤢");
+          break;
+        case "fear":
+          setMaxEmotion("😱");
+          break;
+        case "neutral":
+          setMaxEmotion("😐");
+          break;
+        default:
+          setMaxEmotion("");
+      }
       let engagementScore = Math.floor(Math.random() * 101);
       let userId = "AW3p1Pa84XMSfkCnu05KWq9MUgh1";
       let lessonId = "etNqwBwosOWg8nFKnr0g";
       postStat(userId, avgObj, engagementScore, lessonId);
+      emotions = [];
     }, 5000);
 
     return () => clearInterval(intervalId);
@@ -126,14 +167,14 @@ function Peer({ peer }) {
       className="peer-container"
       style={{
         position: "relative",
-        width: "640px",
-        height: "480px",
+        width: "480px",
+        height: "360px",
       }}
     >
       <video
         ref={videoRef}
-        width="640px"
-        height="475px"
+        width="480px"
+        height="360px"
         id={peer.isLocal ? "webcam" : ""}
         className={`peer-video ${peer.isLocal ? "local" : ""}`}
         autoPlay
@@ -142,14 +183,14 @@ function Peer({ peer }) {
       />
       <div
         id="video-overlay"
-        width="640px"
-        height="475px"
+        width="480px"
+        height="360px"
         style={{
           position: "absolute",
           top: "0",
           left: "0",
-          width: "640px",
-          height: "480px",
+          width: "480px",
+          height: "360px",
           color: "#fff",
           display: "flex",
           justifyContent: "center",
@@ -157,23 +198,14 @@ function Peer({ peer }) {
           fontSize: "2rem",
         }}
       >
-        {(avgEmotions.angry ? "angry:" + avgEmotions.angry : "") +
-          (avgEmotions.disgust ? " disgust:" + avgEmotions.disgust : "") +
-          (avgEmotions.fear ? " fear:" + avgEmotions.fear : "") +
-          (avgEmotions.happy ? " happy:" + avgEmotions.happy : "") +
-          (avgEmotions.sad ? " sad:" + avgEmotions.sad : "") +
-          (avgEmotions.surprise ? "surprise:" + avgEmotions.surprise : "") +
-          (avgEmotions.neutral ? "neutral:" + avgEmotions.neutral : "")}
+        {peer.isLocal ? "You" : peer.name} {" " + maxEmotion}
       </div>
       <canvas
-        id="webcam_canvas"
-        width="640"
-        height="475"
+        id={"webcam_canvas" + peer.videoTrack}
+        width="480"
+        height="360"
         style={{ display: "none" }}
       ></canvas>
-      <div className="peer-name">
-        {peer.name} {peer.isLocal ? "(You)" : ""}
-      </div>
     </div>
   );
 }
