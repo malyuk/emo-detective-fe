@@ -122,37 +122,55 @@ function Peer({ peer }) {
   });
 
   return (
-    <div className="peer-container">
+    <div
+      className="peer-container"
+      style={{
+        position: "relative",
+        width: "640px",
+        height: "480px",
+      }}
+    >
       <video
         ref={videoRef}
+        width="640px"
+        height="475px"
         id={peer.isLocal ? "webcam" : ""}
         className={`peer-video ${peer.isLocal ? "local" : ""}`}
         autoPlay
         muted
         playsInline
       />
-      {peer.isLocal ? (
-        <>
-          <div id="video-overlay">
-            {(avgEmotions.angry ? "angry:" + avgEmotions.angry : "") +
-              (avgEmotions.disgust ? " disgust:" + avgEmotions.disgust : "") +
-              (avgEmotions.fear ? " fear:" + avgEmotions.fear : "") +
-              (avgEmotions.happy ? " happy:" + avgEmotions.happy : "") +
-              (avgEmotions.sad ? " sad:" + avgEmotions.sad : "") +
-              (avgEmotions.surprise ? "surprise:" + avgEmotions.surprise : "") +
-              (avgEmotions.neutral ? "neutral:" + avgEmotions.neutral : "")}
-          </div>
-          <canvas
-            id="webcam_canvas"
-            width="640"
-            height="475"
-            style={{ display: "none" }}
-          ></canvas>
-        </>
-      ) : (
-        ""
-      )}
-
+      <div
+        id="video-overlay"
+        width="640px"
+        height="475px"
+        style={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "640px",
+          height: "480px",
+          color: "#fff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "end",
+          fontSize: "2rem",
+        }}
+      >
+        {(avgEmotions.angry ? "angry:" + avgEmotions.angry : "") +
+          (avgEmotions.disgust ? " disgust:" + avgEmotions.disgust : "") +
+          (avgEmotions.fear ? " fear:" + avgEmotions.fear : "") +
+          (avgEmotions.happy ? " happy:" + avgEmotions.happy : "") +
+          (avgEmotions.sad ? " sad:" + avgEmotions.sad : "") +
+          (avgEmotions.surprise ? "surprise:" + avgEmotions.surprise : "") +
+          (avgEmotions.neutral ? "neutral:" + avgEmotions.neutral : "")}
+      </div>
+      <canvas
+        id="webcam_canvas"
+        width="640"
+        height="475"
+        style={{ display: "none" }}
+      ></canvas>
       <div className="peer-name">
         {peer.name} {peer.isLocal ? "(You)" : ""}
       </div>

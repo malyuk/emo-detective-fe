@@ -6,7 +6,6 @@ import {
   useHMSStore,
 } from "@100mslive/react-sdk";
 import { fetchLesson } from "../api/lessonApi";
-import { RingLoader } from "react-spinners";
 
 export default function App() {
   const hmsActions = useHMSActions();
